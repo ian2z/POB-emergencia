@@ -21,6 +21,14 @@ public class Atendimento {
         return id;
     }
 
+    public Upa getUpa() {
+        return upa;
+    }
+
+    public void setUpa(Upa upa) {
+        this.upa = upa;
+    }
+
     public void setData(String data){
         this.data = data;
     }

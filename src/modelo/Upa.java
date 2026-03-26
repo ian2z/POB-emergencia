@@ -1,23 +1,39 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Upa {
     private String nome;
-    private ArrayList<Paciente> lista_atendimento = new ArrayList<Paciente>() ;
+    private List<Atendimento> atendimentos = new ArrayList<>();
 
-    public Upa(String nome, ArrayList<Paciente> lista_atendimento){
-        this.nome = nome;
-        this.lista_atendimento = lista_atendimento;
-    }
-
-    public void setNome(String nome){
+    public Upa(String nome) {
         this.nome = nome;
     }
-    public String getNome(){
+
+    public String getNome() {
         return nome;
     }
-    public ArrayList<Paciente> getLista_atendimento(){
-        return lista_atendimento;
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public List<Atendimento> getAtendimentos() {
+        return atendimentos;
+    }
+
+    // Método importante para o relacionamento bilateral
+    public void adicionar(Atendimento a) {
+        this.atendimentos.add(a);
+    }
+
+    public void remover(Atendimento a) {
+        this.atendimentos.remove(a);
+    }
+
+    @Override
+    public String toString() {
+        return "Upa [Nome=" + nome + ", Total de Atendimentos=" + atendimentos.size() + "]";
     }
 }
