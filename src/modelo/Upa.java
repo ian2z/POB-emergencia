@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Upa {
     private String nome;
-    private ArrayList<Paciente> lista_atendimento;
+    private ArrayList<Paciente> lista_atendimento = new ArrayList<Paciente>() ;
 
     public Upa(String nome, ArrayList<Paciente> lista_atendimento){
         this.nome = nome;
