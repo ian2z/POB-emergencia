@@ -13,10 +13,10 @@ public class Apagar {
 
     public Apagar() {
         try {
-            manager = Util.conectarBanco();
+            manager = Util.conectar();
 
-            // Vamos apagar o paciente de CPF "123"
-            String cpfAlvo = "123";
+            // Apagar o paciente de CPF informado
+            String cpfAlvo = "13183543400";
 
             // 1. Localizar o paciente
             Query q = manager.query();
