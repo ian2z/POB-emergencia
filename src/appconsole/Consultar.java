@@ -14,7 +14,7 @@ public class Consultar {
 
     public Consultar() {
         try {
-            manager = Util.conectarBanco();
+            manager = Util.conectar();
 
             System.out.println("--- Atendimentos na data 20/10/2023 ---");
             List<Atendimento> res1 = atendimentosNaData("20/10/2023");
