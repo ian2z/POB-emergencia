@@ -18,14 +18,12 @@ public class Util {
     private static ObjectContainer manager;
     private static String ipservidor;
 
-    public static ObjectContainer conectarBanco() {
+    public static ObjectContainer conectar() {
         if (manager != null)
             return manager;
 
         try {
             EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
-
-            // Configuração de Cascata para o Tema EMERGÊNCIA
             // Paciente
             config.common().objectClass(Paciente.class).cascadeOnUpdate(true);
             config.common().objectClass(Paciente.class).cascadeOnActivate(true);
@@ -94,5 +92,9 @@ public class Util {
                     "Erro ao conectar ao banco remoto ip=" + ipservidor + "\n" + e.getMessage());
             System.exit(0);
         }
+    }
+
+    public static ObjectContainer getManager() {
+        return manager;
     }
 }

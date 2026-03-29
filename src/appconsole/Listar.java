@@ -13,37 +13,37 @@ import util.Util;
 public class Listar {
 
     public Listar(){
-        Util.conectarBanco();
-        ObjectContainer manager = Util.();
+        Util.conectar();
+        ObjectContainer manager = Util.getManager();
 
         Query q;
 
         System.out.println("\n---listagem de pacientes:");
         q = manager.query();
         q.constrain(Paciente.class);
-        List<Atendimento> atendimentos = q.execute();
-        for(Atendimento a: atendimentos){
+        List<Paciente> pacientes = q.execute();
+        for(Paciente a: pacientes){
             System.out.println(a);
         }
 
 
-        System.out.println("\n---listagem de motores:");
+        System.out.println("\n---listagem de atendimentos:");
         q = manager.query();
-        q.constrain(Motor.class);
-        List<Motor> motores = q.execute();
-        for(Motor m: motores){
+        q.constrain(Atendimento.class);
+        List<Atendimento> atendimentos = q.execute();
+        for(Atendimento m: atendimentos){
             System.out.println(m);
         }
 
 
-        System.out.println("\n---listagem de motoristas:");
+        System.out.println("\n---listagem de UPAs:");
         q = manager.query();
-        q.constrain(Motorista.class);
-        List<Motorista> motoristas = q.execute();
-        for(Motorista m: motoristas){
+        q.constrain(Upa.class);
+        List<Upa> upas = q.execute();
+        for(Upa m: upas){
             System.out.println(m);
         }
-        Util.desconectar();
+        Util.desconectarBanco();
 
         System.out.println("\n aviso: feche sempre o plugin OME antes de executar aplicação");
     }
