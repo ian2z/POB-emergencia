@@ -48,6 +48,11 @@ public class Cadastrar {
         manager.store(atendimento);
         manager.commit();
 
+        paciente = new Paciente("22222222222", "teste");
+        atendimento = new Atendimento(5, "01-01-2026", paciente, bessa);
+        manager.store(atendimento);
+        manager.commit();
+
         paciente = new Paciente("46851236577", "Sicrano de Torres");
         bancarios = new Upa("Bancários");
         atendimento = new Atendimento(5, "01-01-2026", paciente, bancarios);

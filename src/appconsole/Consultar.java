@@ -21,11 +21,11 @@ public class Consultar {
             for (Atendimento a : res1) System.out.println(a);
 
             System.out.println("\n--- Atendimentos do paciente CPF 123 ---");
-            List<Atendimento> res2 = atendimentosDoPaciente("123");
+            List<Atendimento> res2 = atendimentosDoPaciente("13183543400");
             for (Atendimento a : res2) System.out.println(a);
 
             System.out.println("\n--- Pacientes com mais de 2 atendimentos na UPA Central ---");
-            List<Paciente> res3 = pacientesComMuitosAtendimentosNaUpa("Central", 2);
+            List<Paciente> res3 = pacientesComMuitosAtendimentosNaUpa("Mangabeira", 2);
             for (Paciente p : res3) System.out.println(p);
 
         } catch (Exception e) {
