@@ -6,6 +6,7 @@ import modelo.Upa;
 import modelo.Paciente;
 import modelo.Atendimento;
 import util.Util;
+import util.ControleID;
 
 
 public class Cadastrar {
