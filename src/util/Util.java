@@ -97,4 +97,8 @@ public class Util {
     public static ObjectContainer getManager() {
         return manager;
     }
+
+    public static String getIPservidor() {
+        return ipservidor;
+    }
 }
