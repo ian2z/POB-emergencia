@@ -41,6 +41,8 @@ public class Util {
 
             // Abre o arquivo local
             manager = Db4oEmbedded.openFile(config, "banco.db4o");
+            //criando o arquivo do banco de dados auxiliar
+            ControleID.ativar(manager);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao abrir banco: " + e.getMessage());

@@ -1,24 +1,22 @@
 package modelo;
 
 public class Atendimento {
-    private Integer id;
+    private int id;
     private String data;
     private Paciente paciente;
     private Upa upa;
 
-    public Atendimento(Integer id, String data, Paciente paciente, Upa upa) {
-        this.id = id;
+    public Atendimento(String data, Paciente paciente, Upa upa) {
+        //this.id = id;
         this.data = data;
         this.paciente = paciente;
         this.upa = upa;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
+        //configurando o relacionamento bilateral
+        // Chama o metodo que já existe na sua classe Upa
+        this.upa.adicionar(this);
+        // Certifique-se de que a classe Paciente também tenha um metodo adicionar()
+        this.paciente.adicionar(this);
     }
 
     public Upa getUpa() {
@@ -39,7 +37,7 @@ public class Atendimento {
 
     @Override
     public String toString() {
-        return "ID: " + id + " | " + "Data: " + data + " | " + "Paciente: " + paciente + " | " + "Upa: " + upa;
+        return "Id: " + id + " | " + "Data: " + data + " | " + "Paciente: " + paciente + " | " + "Upa: " + upa;
     }
 
 }
