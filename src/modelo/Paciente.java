@@ -25,18 +25,27 @@ public class Paciente {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public List<Atendimento> getAtendimentos() {
-        return atendimentos;
-    }
-    public void adicionar(Atendimento a) {
-        this.atendimentos.add(a);
-    }
+    public List<Atendimento> getAtendimentos() { return atendimentos; }
+    public void adicionar(Atendimento a) { this.atendimentos.add(a); }
 
     @Override
     public String toString() {
         return "Paciente [CPF=" + cpf + ", Nome=" + nome + ", Total de atendimentos=" + atendimentos.size() +"]";
 
     }
+
+    // Metodo para achar um atendimento específico dentro da lista do paciente
+    public Atendimento localizar(int idAtendimento) {
+        for(Atendimento a : atendimentos){
+            if(a.getId() == idAtendimento) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    // Metodo para quebrar o relacionamento (remover da lista)
+    public void remover(Atendimento a) { this.atendimentos.remove(a); }
 }
 
 
