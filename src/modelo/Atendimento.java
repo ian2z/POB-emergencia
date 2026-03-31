@@ -7,7 +7,7 @@ public class Atendimento {
     private Upa upa;
 
     public Atendimento(String data, Paciente paciente, Upa upa) {
-        //this.id = id;
+        this.id = id;
         this.data = data;
         this.paciente = paciente;
         this.upa = upa;
@@ -34,6 +34,8 @@ public class Atendimento {
     public String getData() {
         return data;
     }
+
+    public int getId() { return id; }
 
     @Override
     public String toString() {
