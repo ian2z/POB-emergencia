@@ -18,7 +18,6 @@ public class Alterar {
         System.out.println("Alteração: Remover relacionamento entre Paciente e Atendimento");
         System.out.println("=======================================================\n");
 
-        // 1. Buscando o paciente Mario Castro que você cadastrou
         String cpfBusca = "22222222222";
 
         Query q = manager.query();
@@ -31,24 +30,23 @@ public class Alterar {
             System.out.println("Paciente encontrado: " + paciente.getNome());
             System.out.println("Total de atendimentos antes da remocao: " + paciente.getAtendimentos().size());
 
-            // 2. Os atendimentos do Mario receberam os IDs 8, 9 e 10 no seu cadastro.
-            // Vamos remover o primeiro atendimento dele (ID 8)
+            // 2. Os atendimentos do Mario receberam os IDs 8, 9 e 10.
+            // Remover o primeiro atendimento dele (ID 8)
             Atendimento atendimentoAlvo = paciente.localizar(8);
 
             if (atendimentoAlvo != null) {
 
-                // Quebra o relacionamento do lado do paciente
+                // Desfaz o relacionamento do lado do paciente
                 paciente.remover(atendimentoAlvo);
                 manager.store(paciente);
                 System.out.println("-> Relacionamento removido da lista do paciente.");
 
-                // Quebra o relacionamento do lado da UPA também
+                // Desfaz o relacionamento do lado da UPA
                 if (atendimentoAlvo.getUpa() != null) {
                     atendimentoAlvo.getUpa().remover(atendimentoAlvo);
                     manager.store(atendimentoAlvo.getUpa());
                 }
 
-                // REGRA DO OBJETO ÓRFÃO:
                 // O atendimento 8 não pertence mais ao Mario. Logo, deve sumir do banco.
                 manager.delete(atendimentoAlvo);
                 System.out.println("-> Atendimento ID 8 apagado por ser um objeto órfão.");
