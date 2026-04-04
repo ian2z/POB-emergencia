@@ -39,7 +39,7 @@ public class Atendimento {
 
     @Override
     public String toString() {
-        return "Id: " + id + " | " + "Data: " + data + " | " + "Paciente: " + paciente + " | " + "Upa: " + upa;
+        return "Id: " + id + " | " + "Data: " + data + " | " + "Paciente: " + paciente.getCpf() + " | " + "Upa: " + upa.getNome();
     }
 
 }
