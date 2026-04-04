@@ -30,7 +30,12 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return "Paciente [CPF=" + cpf + ", Nome=" + nome + ", Total de atendimentos=" + atendimentos.size() +"]";
+        List<Integer> ids = new ArrayList<>();
+        for (Atendimento a : atendimentos){
+            ids.add(a.getId());
+        }
+
+        return "Paciente [CPF=" + cpf + ", Nome=" + nome + ", Atendimentos=" + ids +"]";
 
     }
 

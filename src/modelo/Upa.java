@@ -34,6 +34,10 @@ public class Upa {
 
     @Override
     public String toString() {
-        return "Upa [Nome=" + nome + ", Total de Atendimentos=" + atendimentos.size() + "]";
+        List<Integer> ids = new ArrayList<>();
+        for (Atendimento a : atendimentos){
+            ids.add(a.getId());
+        }
+        return "Upa [Nome=" + nome + ", Atendimentos=" + ids + "]";
     }
 }
