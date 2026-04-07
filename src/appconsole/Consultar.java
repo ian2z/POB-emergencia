@@ -20,9 +20,11 @@ public class Consultar {
         //quais os atendimentos na data X
         String dataBusca = "01-01-2026";
         System.out.println("Buscando atendimentos na data: " + dataBusca);
+
         Query q1 = manager.query();
         q1.constrain(Atendimento.class);
         q1.descend("data").constrain(dataBusca);
+
         List<Atendimento> res1 = q1.execute();
 
         for (Atendimento a : res1) {
@@ -37,6 +39,7 @@ public class Consultar {
         Query q2 = manager.query();
         q2.constrain(Atendimento.class);
         q2.descend("paciente").descend("cpf").constrain(cpfBusca);
+
         List<Atendimento> res2 = q2.execute();
 
         for (Atendimento a : res2) {
@@ -44,12 +47,32 @@ public class Consultar {
         }
 
         System.out.println("\n=======================================================");
-
         //quais os pacientes que tem mais de N atendimentos na upa X
+
         int minAtendimentos = 1;
         String nomeUpaBusca = "Bessa";
         System.out.println("Pacientes com mais de " + minAtendimentos + " atendimentos na UPA: " + nomeUpaBusca);
 
+        Query q3 = manager.query();
+        q3.constrain(Paciente.class);
+        q3.descend("atendimentos").descend("upa").descend("nome").constrain(nomeUpaBusca);
+
+        List<Paciente> resultados = q3.execute();
+
+        for (Paciente p : resultados) {
+            int cont = 0;
+            for (Atendimento a : p.getAtendimentos()) {
+                if (a.getUpa().getNome().equalsIgnoreCase(nomeUpaBusca)) {
+                    cont++;
+                }
+            }
+            if (cont > minAtendimentos) {
+                System.out.println(p);
+            }
+        }
+
+/*        System.out.println("\n=======================================================");
+        //consulta utilizando Native Query
         List<Paciente> res3 = manager.query(new Predicate<Paciente>() {
             public boolean match(Paciente p) {
                 int cont = 0;
@@ -66,7 +89,7 @@ public class Consultar {
 
         for (Paciente p : res3) {
             System.out.println(p);
-        }
+        }*/
 
         System.out.println("\n=======================================================");
         Util.desconectarBanco();
