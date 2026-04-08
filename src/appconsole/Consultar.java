@@ -4,6 +4,8 @@ import java.util.List;
 import com.db4o.ObjectContainer;
 import com.db4o.query.Predicate;
 import com.db4o.query.Query;
+import com.db4o.query.Evaluation;
+import com.db4o.query.Candidate;
 
 import modelo.Atendimento;
 import modelo.Paciente;
@@ -55,20 +57,28 @@ public class Consultar {
 
         Query q3 = manager.query();
         q3.constrain(Paciente.class);
-        q3.descend("atendimentos").descend("upa").descend("nome").constrain(nomeUpaBusca);
+
+        q3.constrain(new Evaluation() {
+            @Override
+            public void evaluate(Candidate candidate) {
+                Paciente p = (Paciente) candidate.getObject();
+                int cont = 0;
+
+                //dentro da consulta
+                for (Atendimento a : p.getAtendimentos()) {
+                    if(a.getUpa().getNome().equalsIgnoreCase(nomeUpaBusca)) {
+                        cont++;
+                    }
+                }
+                //se retornar true, o objeto é incluido no resultado final
+                candidate.include(cont > minAtendimentos);
+            }
+        });
 
         List<Paciente> resultados = q3.execute();
 
-        for (Paciente p : resultados) {
-            int cont = 0;
-            for (Atendimento a : p.getAtendimentos()) {
-                if (a.getUpa().getNome().equalsIgnoreCase(nomeUpaBusca)) {
-                    cont++;
-                }
-            }
-            if (cont > minAtendimentos) {
-                System.out.println(p);
-            }
+        for (Paciente p : resultados){
+            System.out.println(p);
         }
 
 /*        System.out.println("\n=======================================================");
