@@ -1,106 +1,95 @@
+/**********************************
+ * IFPB - SI
+ * POB - Persistencia de Objetos
+ * Prof. Fausto Ayres
+ **********************************/
+
 package util;
 
+import java.io.IOException;
 import java.util.Properties;
-import javax.swing.JOptionPane;
 
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
-import com.db4o.cs.Db4oClientServer;
-import com.db4o.config.EmbeddedConfiguration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.cfg.JdbcSettings;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 
-// IMPORTANTE: Importe suas classes de modelo
-import com.db4o.cs.config.ClientConfiguration;
-import modelo.Atendimento;
-import modelo.Paciente;
-import modelo.Upa;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceConfiguration;
+import jakarta.persistence.PersistenceUnitTransactionType;
 
 public class Util {
-    private static ObjectContainer manager;
-    private static String ipservidor;
+	private static EntityManager manager;
+	private static EntityManagerFactory factory;
+	private static final Logger logger = LogManager.getLogger(Util.class);
 
-    public static ObjectContainer conectar() {
-        if (manager != null)
-            return manager;
+	@SuppressWarnings("unused")
+	public static void conectar() {
+		if (manager == null) {
+			// ler dicionario do arquivo "ip.properties" 
+			Properties propriedades = new Properties();
+			try {
+				propriedades.load(Util.class.getResourceAsStream("/util/ip.properties"));
+			} catch (IOException e) {
+				throw new RuntimeException("arquivo /util/ip.properties inexistente");
+			}
+			//acessar os dados do dicionario
+			String sgbd = propriedades.getProperty("sgbd");
+			String banco = propriedades.getProperty("bd");
+			String usuario = propriedades.getProperty("usuario");
+			String senha = propriedades.getProperty("senha");
+			String ipatual = propriedades.getProperty("ipatual");
 
-        try {
-            EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
-            // Paciente
-            config.common().objectClass(Paciente.class).cascadeOnUpdate(true);
-            config.common().objectClass(Paciente.class).cascadeOnActivate(true);
-            config.common().objectClass(Paciente.class).cascadeOnDelete(false);
+			if (sgbd.equals("postgresql")) {
+				logger.info("----conectando postgresql");
+				factory = Persistence.createEntityManagerFactory("hibernate-postgresql");
+			
+				//String url ="jdbc:" + sgbd + "://" + ipatual + ":5432/" + banco;
+				//factory = alterarConfiguracao(url, usuario, senha);
+			}
+			
+			if (sgbd.equals("mysql")) {
+				logger.info("----conectando mysql");
+				factory = Persistence.createEntityManagerFactory("hibernate-mysql");
+				
+				//String url = "jdbc:" + sgbd + "://" + ipatual + ":3306/" + banco;
+				//factory = alterarConfiguracao(url, usuario, senha);
+			}
+			manager = factory.createEntityManager();
+			logger.info("-------- conectou banco de dados");
+		}
+	}
 
-            // Upa
-            config.common().objectClass(Upa.class).cascadeOnUpdate(true);
-            config.common().objectClass(Upa.class).cascadeOnActivate(true);
-            config.common().objectClass(Upa.class).cascadeOnDelete(false);
+	public static void desconectar() {
+		if (manager != null && manager.isOpen()) {
+			manager.close();
+			factory.close();
+			manager = null;
+			logger.debug("-------- desconectou banco de dados");
+		}
+	}
 
-            // Atendimento
-            config.common().objectClass(Atendimento.class).cascadeOnUpdate(true);
-            config.common().objectClass(Atendimento.class).cascadeOnActivate(true);
-            config.common().objectClass(Atendimento.class).cascadeOnDelete(false);
+	public static EntityManagerFactory alterarConfiguracao(String url, String usuario, String senha) {
+		//faz o mesmo trabalho do persistence.xml, mas de forma programatica
+		return new PersistenceConfiguration("hibernate-postgresql")
+				.transactionType(PersistenceUnitTransactionType.RESOURCE_LOCAL)
+				.provider(HibernatePersistenceProvider.class.getName())
+				.managedClass(modelo.Paciente.class)
+				.managedClass(modelo.Upa.class)
+				.managedClass(modelo.Atendimento.class)
+				.property(PersistenceConfiguration.JDBC_URL, url)
+				.property(PersistenceConfiguration.JDBC_USER, usuario)
+				.property(PersistenceConfiguration.JDBC_PASSWORD, senha).property("hibernate.hbm2ddl.auto", "update")
+				.property(JdbcSettings.SHOW_SQL, false)
+				.property(JdbcSettings.FORMAT_SQL, true)
+				.property(JdbcSettings.HIGHLIGHT_SQL, false)
+				.createEntityManagerFactory();
+	}
 
-            // Abre o arquivo local
-            manager = Db4oEmbedded.openFile(config, "banco.db4o");
-            //criando o arquivo do banco de dados auxiliar
-            ControleID.ativar(manager);
+	public static EntityManager getManager() {
+		return manager;
+	}
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao abrir banco: " + e.getMessage());
-            System.exit(0);
-        }
-        return manager;
-    }
-
-    public static void desconectarBanco() {
-        if (manager != null) {
-            manager.close();
-            manager = null;
-        }
-    }
-
-    private static void conectarBancoRemoto() {
-        if (manager != null)
-            return ; // ja tem uma conexao
-
-        // ---------------------------------------
-        // configurar e conectar banco remoto
-        // ---------------------------------------
-        EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
-        config.common().messageLevel(0); // 0,1,2,3...
-
-        // Paciente
-        config.common().objectClass(Paciente.class).cascadeOnUpdate(true);
-        config.common().objectClass(Paciente.class).cascadeOnActivate(true);
-        config.common().objectClass(Paciente.class).cascadeOnDelete(false);
-
-        // Upa
-        config.common().objectClass(Upa.class).cascadeOnUpdate(true);
-        config.common().objectClass(Upa.class).cascadeOnActivate(true);
-        config.common().objectClass(Upa.class).cascadeOnDelete(false);
-
-        // Atendimento
-        config.common().objectClass(Atendimento.class).cascadeOnUpdate(true);
-        config.common().objectClass(Atendimento.class).cascadeOnActivate(true);
-        config.common().objectClass(Atendimento.class).cascadeOnDelete(false);
-
-        // **************************************
-        // Conexão client-server
-        // **************************************
-        try {
-            manager = Db4oClientServer.openClient((ClientConfiguration) config, ipservidor, 34000, "usuario1", "senha1");
-            //System.out.println("conectado ao banco " + manager);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,
-                    "Erro ao conectar ao banco remoto ip=" + ipservidor + "\n" + e.getMessage());
-            System.exit(0);
-        }
-    }
-
-    public static ObjectContainer getManager() {
-        return manager;
-    }
-
-    public static String getIPservidor() {
-        return ipservidor;
-    }
 }
