@@ -1,70 +1,50 @@
 package appconsole;
 
-import java.util.List;
-import com.db4o.ObjectContainer;
-import com.db4o.query.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import modelo.Atendimento;
-import modelo.Paciente;
 import util.Util;
 
 public class Alterar {
 
     public Alterar() {
         Util.conectar();
-        ObjectContainer manager = Util.getManager();
+        EntityManager manager = Util.getManager();
 
-        System.out.println("\n=======================================================");
-        System.out.println("Alteração: Remover relacionamento entre Paciente e Atendimento");
-        System.out.println("=======================================================\n");
+        System.out.println("Removendo um relacionamento (Atendimento)...");
 
-        String cpfBusca = "22222222222";
+        try {
+            manager.getTransaction().begin();
 
-        Query q = manager.query();
-        q.constrain(Paciente.class);
-        q.descend("cpf").constrain(cpfBusca);
-        List<Paciente> resultados = q.execute();
+            //buscamos um atendimento específico (o primeiro atendimento do paciente joao)
+            TypedQuery<Atendimento> query = manager.createQuery(
+                    "SELECT a FROM Atendimento a WHERE a.paciente.cpf = :cpf", Atendimento.class);
+            query.setParameter("cpf", "13567915644");
+            query.setMaxResults(1); //pegar apenas o primeiro que achar
 
-        if (!resultados.isEmpty()) {
-            Paciente paciente = resultados.getFirst();
-            System.out.println("Paciente encontrado: " + paciente.getNome());
-            System.out.println("Total de atendimentos antes da remocao: " + paciente.getAtendimentos().size());
+            Atendimento atendimento = query.getResultStream().findFirst().orElse(null);
 
-            // 2. Os atendimentos do Mario receberam os IDs 8, 9 e 10.
-            // Remover o primeiro atendimento dele (ID 8)
-            Atendimento atendimentoAlvo = paciente.localizar(8);
+            if (atendimento != null) {
+                //removendo as listas da memoria
+                atendimento.getPaciente().remover(atendimento);
+                atendimento.getUpa().remover(atendimento);
 
-            if (atendimentoAlvo != null) {
-
-                // Desfaz o relacionamento do lado do paciente
-                paciente.remover(atendimentoAlvo);
-                manager.store(paciente);
-                System.out.println("-> Relacionamento removido da lista do paciente.");
-
-                // Desfaz o relacionamento do lado da UPA
-                if (atendimentoAlvo.getUpa() != null) {
-                    atendimentoAlvo.getUpa().remover(atendimentoAlvo);
-                    manager.store(atendimentoAlvo.getUpa());
-                }
-
-                // O atendimento 8 não pertence mais ao Mario. Logo, deve sumir do banco.
-                manager.delete(atendimentoAlvo);
-                System.out.println("-> Atendimento ID 8 apagado por ser um objeto órfão.");
-
-                manager.commit();
-
-                System.out.println("\nOperação concluída com sucesso!");
-                System.out.println("Total de atendimentos do Mario AGORA: " + paciente.getAtendimentos().size());
-
+                //removendo atendimento do BD
+                manager.remove(atendimento);
+                System.out.println("Atendimento removido com sucesso!");
             } else {
-                System.out.println("O paciente Mario não possui um atendimento com o ID 8.");
+                System.out.println("Atendimento não encontrado.");
             }
-        } else {
-            System.out.println("Paciente Mario não encontrado no banco.");
-        }
 
-        Util.desconectarBanco();
-        System.out.println("\n=======================================================");
+            manager.getTransaction().commit();
+
+        } catch (Exception e) {
+            manager.getTransaction().rollback();
+            System.out.println("Erro ao alterar: " + e.getMessage());
+        } finally {
+            Util.desconectar();
+        }
     }
 
     public static void main(String[] args) {
