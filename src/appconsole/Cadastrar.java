@@ -1,6 +1,6 @@
 package appconsole;
 
-import com.db4o.ObjectContainer;
+import jakarta.persistence.EntityManager;
 
 import modelo.Upa;
 import modelo.Paciente;
@@ -11,86 +11,61 @@ public class Cadastrar {
 
     public Cadastrar(){
         Util.conectar();
-        ObjectContainer manager = Util.getManager();
+        //mudando de ObjectContainer para EntityManager
+        EntityManager manager = Util.getManager();
 
         System.out.println("cadastrando objetos...");
-        Paciente paciente;
-        Atendimento atendimento;
 
-        //criando Upas
-        Upa mangabeira = new Upa("Mangabeira");
-        Upa bessa = new Upa("Bessa");
-        Upa bancarios = new Upa("Bancários");
+        //abrindo a transação antes de fazer alterações no banco
+        manager.getTransaction().begin();
 
-        paciente = new Paciente("13567915644", "João Carvalho");
-        atendimento = new Atendimento("29-03-2026", paciente, mangabeira);
-        manager.store(atendimento);
-        manager.commit();
+        try {
+            //criando persistencias de UPA primeiro, para gerar os IDs
+            Upa mangabeira = new Upa("Mangabeira");
+            manager.persist(mangabeira);
 
-        paciente = new Paciente("45847563216", "Sara Lopes");
-        atendimento = new Atendimento("29-03-2026", paciente, mangabeira);
-        manager.store(atendimento);
-        manager.commit();
+            Upa bessa = new Upa("Bessa");
+            manager.persist(bessa);
 
-        paciente = new Paciente("12036405970", "Enzo Ramos");
-        atendimento = new Atendimento("29-03-2026", paciente, mangabeira);
-        manager.store(atendimento);
-        manager.commit();
+            Upa bancarios = new Upa("Bancários");
+            manager.persist(bancarios);
 
-        paciente = new Paciente("11111111111", "Fulano da Silva");
-        atendimento = new Atendimento("08-02-2026", paciente, mangabeira);
-        manager.store(atendimento);
-        manager.commit();
+            //criando Paciente e Atendimento
+            Paciente p1 = new Paciente("13567915644", "João Carvalho");
+            manager.persist(p1);
+            Atendimento a1 = new Atendimento("29-03-2026", p1, mangabeira);
+            manager.persist(a1);
 
-        paciente = new Paciente("15654836502", "Antony Soprano");
-        atendimento = new Atendimento("10-02-2026", paciente, bessa);
-        manager.store(atendimento);
-        manager.commit();
+            Paciente p2 = new Paciente("45847563216", "Sara Lopes");
+            manager.persist(p2);
+            Atendimento a2 = new Atendimento("29-03-2026", p2, mangabeira);
+            manager.persist(a2);
 
-        paciente = new Paciente("65896713506", "Maria do Carmo");
-        atendimento = new Atendimento("23-01-2026", paciente, mangabeira);
-        manager.store(atendimento);
-        manager.commit();
+            //exemplo Mário com mais de uma visita
+            Paciente mario = new Paciente("22222222222", "Mario Castro");
+            manager.persist(mario);
 
-        paciente = new Paciente("68725461364", "Helena de Souza");
-        atendimento = new Atendimento("01-01-2026", paciente, bessa);
-        manager.store(atendimento);
-        manager.commit();
+            Atendimento aMario1 = new Atendimento("01-01-2026", mario, bessa);
+            manager.persist(aMario1);
+            Atendimento aMario2 = new Atendimento("02-01-2026", mario, bessa);
+            manager.persist(aMario2);
+            Atendimento aMario3 = new Atendimento("03-01-2026", mario, mangabeira);
+            manager.persist(aMario3);
 
-        //Realizando teste para paciente com mais de uma passagem em upas diferentes
-        Paciente pacienteMario = new Paciente("22222222222", "Mario Castro");
-        atendimento = new Atendimento("01-01-2026", pacienteMario, bessa);
-        manager.store(atendimento);
-        manager.commit();
-        //registrando outra passagem na mesma Upa
-        atendimento = new Atendimento("02-01-2026", pacienteMario, bessa);
-        manager.store(atendimento);
-        manager.commit();
-        //cadastrando na upa mangabeira, com datas diferentes
-        atendimento = new Atendimento("03-01-2026", pacienteMario, mangabeira);
-        manager.store(atendimento);
-        manager.commit();
+            //finalizando transação e salvando com commit
+            manager.getTransaction().commit();
+            System.out.println("Cadastro finalizado com sucesso!");
 
-        paciente = new Paciente("46851236577", "Sicrano de Torres");
-        atendimento = new Atendimento("01-01-2026", paciente, bancarios);
-        manager.store(atendimento);
-        manager.commit();
-
-        paciente = new Paciente("03694510235", "Julia Alencar");
-        atendimento = new Atendimento("11-02-2026", paciente, bancarios);
-        manager.store(atendimento);
-        manager.commit();
-
-        Util.desconectarBanco();
-        System.out.println("finalizando cadastro...");
-    }
-
-    public void cadastrar(){
-
+        } catch (Exception e) {
+            //voltando tudo, em caso de erro
+            manager.getTransaction().rollback();
+            System.out.println("Erro ao cadastrar: " + e.getMessage());
+        } finally {
+            Util.desconectar();
+        }
     }
 
     public static void main(String[] args) {
         new Cadastrar();
     }
 }
-

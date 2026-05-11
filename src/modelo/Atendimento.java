@@ -51,6 +51,10 @@ public class Atendimento {
         return data;
     }
 
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
     public int getId() { return id; }
 
     @Override
