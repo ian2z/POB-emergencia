@@ -1,21 +1,37 @@
 package modelo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Atendimento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String data;
+
+    //gerando coluna de chave estrangeira para o relacionamento de paciente atendimento com paciente
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
+
+    @ManyToOne
+    @JoinColumn(name = "upa_id")
     private Upa upa;
 
+    public Atendimento() {} //construtor vazio obrigatorio do JPA
+
     public Atendimento(String data, Paciente paciente, Upa upa) {
-        this.id = id;
         this.data = data;
         this.paciente = paciente;
         this.upa = upa;
 
-        //configurando o relacionamento bilateral
-        // Chama o metodo que já existe na sua classe Upa
         this.upa.adicionar(this);
-        // Certifique-se de que a classe Paciente também tenha um metodo adicionar()
         this.paciente.adicionar(this);
     }
 
