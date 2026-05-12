@@ -64,6 +64,52 @@ public class Consultar {
 
         System.out.println("\n=======================================================");
 
+        System.out.println("4) Busca de atendimentos por palavra-chave na triagem");
+        String palavraChave = "fratura";
+
+        TypedQuery<Atendimento> queryLike = manager.createQuery(
+                "SELECT a FROM Atendimento a WHERE LOWER(a.triagem) LIKE LOWER(:palavra)",
+                Atendimento.class
+        );
+        queryLike.setParameter("palavra", "%" + palavraChave + "%");
+
+        for (Atendimento a : queryLike.getResultList()) {
+            System.out.println("Data: " + a.getData() + " | Sintoma: " + a.getTriagem() + " | Paciente: " + a.getPaciente().getNome());
+        }
+
+        System.out.println("\n=======================================================");
+
+        System.out.println("5) Pacientes que frequentaram MÚLTIPLAS UPAs diferentes");
+        TypedQuery<Paciente> querySaltadores = manager.createQuery(
+                "SELECT p FROM Paciente p JOIN p.atendimentos a " +
+                        "GROUP BY p " +
+                        "HAVING COUNT(DISTINCT a.upa) > 1",
+                Paciente.class
+        );
+
+        for (Paciente p : querySaltadores.getResultList()) {
+            System.out.println("Alerta: O paciente " + p.getNome() + " visitou mais de uma UPA diferente!");
+        }
+
+        System.out.println("\n=======================================================");
+
+        System.out.println("6) Ranking de Lotação das UPAs");
+        // Retorna o nome da UPA e a quantidade total de atendimentos nela, ordenado do maior pro menor
+        TypedQuery<Object[]> queryRanking = manager.createQuery(
+                "SELECT u.nome, COUNT(a) FROM Upa u LEFT JOIN u.atendimentos a " +
+                        "GROUP BY u.nome " +
+                        "ORDER BY COUNT(a) DESC",
+                Object[].class
+        );
+
+        for (Object[] linha : queryRanking.getResultList()) {
+            String nomeUpa = (String) linha[0];
+            Long totalAtendimentos = (Long) linha[1];
+            System.out.println("UPA " + nomeUpa + " tem " + totalAtendimentos + " atendimentos registrados.");
+        }
+
+        System.out.println("\n=======================================================");
+
         Util.desconectar();
     }
 
