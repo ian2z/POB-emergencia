@@ -14,11 +14,11 @@ public class Atendimento {
     private String triagem;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "paciente_id", nullable = false)
+    //JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "upa_id", nullable = false)
+    //@JoinColumn(name = "upa_id", nullable = false)
     private Upa upa;
 
     public Atendimento() {}

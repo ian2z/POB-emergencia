@@ -25,7 +25,7 @@ public class Consultar {
         TypedQuery<Atendimento> q1 = manager.createQuery(
                 "SELECT a FROM Atendimento a WHERE a.data = :data", Atendimento.class);
 
-        q1.setParameter("data", dataBusca); // Agora ele passa o objeto LocalDate corretamente
+        q1.setParameter("data", dataBusca);
 
         for (Atendimento a : q1.getResultList()) {
             System.out.println(a);
@@ -97,7 +97,7 @@ public class Consultar {
         System.out.println("\n=======================================================");
 
         System.out.println("6) Ranking de Lotação das UPAs");
-        // Retorna o nome da UPA e a quantidade total de atendimentos nela, ordenado do maior pro menor
+        //retorna o nome da UPA e a quantidade total de atendimentos nela, ordenado do maior pro menor
         TypedQuery<Object[]> queryRanking = manager.createQuery(
                 "SELECT u.nome, COUNT(a) FROM Upa u LEFT JOIN u.atendimentos a " +
                         "GROUP BY u.nome " +
