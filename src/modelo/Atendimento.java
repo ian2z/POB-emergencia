@@ -14,6 +14,7 @@ public class Atendimento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String data;
+    private String triagem;
 
     //gerando coluna de chave estrangeira para o relacionamento de paciente atendimento com paciente
     @ManyToOne
@@ -26,8 +27,9 @@ public class Atendimento {
 
     public Atendimento() {} //construtor vazio obrigatorio do JPA
 
-    public Atendimento(String data, Paciente paciente, Upa upa) {
+    public Atendimento(String data, String triagem, Paciente paciente, Upa upa) {
         this.data = data;
+        this.triagem = triagem;
         this.paciente = paciente;
         this.upa = upa;
 
@@ -49,6 +51,14 @@ public class Atendimento {
 
     public String getData() {
         return data;
+    }
+
+    public void setTriagem(String triagem) {
+        this.triagem = triagem;
+    }
+
+    public String getTriagem() {
+        return triagem;
     }
 
     public Paciente getPaciente() {

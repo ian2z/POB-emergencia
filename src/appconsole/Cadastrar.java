@@ -33,23 +33,32 @@ public class Cadastrar {
             //criando Paciente e Atendimento
             Paciente p1 = new Paciente("13567915644", "João Carvalho");
             manager.persist(p1);
-            Atendimento a1 = new Atendimento("29-03-2026", p1, mangabeira);
+            Atendimento a1 = new Atendimento("29-03-2026", "Dor de cabeça intensa", p1, mangabeira);
             manager.persist(a1);
 
             Paciente p2 = new Paciente("45847563216", "Sara Lopes");
             manager.persist(p2);
-            Atendimento a2 = new Atendimento("29-03-2026", p2, mangabeira);
+            Atendimento a2 = new Atendimento("29-03-2026", "Ânsia de Võmito", p2, mangabeira);
             manager.persist(a2);
+
+            Paciente p3 = new Paciente("165897543100", "Ramon Nobre");
+            manager.persist(p3);
+            Atendimento a3 = new Atendimento("10-05-2026", "Fratura", p3, bancarios);
+            manager.persist(a3);
+
+            Paciente p4 = new Paciente("95675499830", "Omar Gomez");
+            manager.persist(p4);
+            Atendimento a4 = new Atendimento("06-04-2026", "Dores musculares", p4, bancarios);
 
             //exemplo Mário com mais de uma visita
             Paciente mario = new Paciente("22222222222", "Mario Castro");
             manager.persist(mario);
 
-            Atendimento aMario1 = new Atendimento("01-01-2026", mario, bessa);
+            Atendimento aMario1 = new Atendimento("01-01-2026", "Forte dores no peito", mario, bessa);
             manager.persist(aMario1);
-            Atendimento aMario2 = new Atendimento("02-01-2026", mario, bessa);
+            Atendimento aMario2 = new Atendimento("02-01-2026","Volta após medicação", mario, bessa);
             manager.persist(aMario2);
-            Atendimento aMario3 = new Atendimento("03-01-2026", mario, mangabeira);
+            Atendimento aMario3 = new Atendimento("03-01-2026","Dor de cabeça intensa", mario, mangabeira);
             manager.persist(aMario3);
 
             //finalizando transação e salvando com commit
