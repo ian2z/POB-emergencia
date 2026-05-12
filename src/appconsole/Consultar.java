@@ -18,11 +18,14 @@ public class Consultar {
         System.out.println("\n=======================================================");
 
         //quais os atendimentos na data X
-        String dataBusca = "01-01-2026";
-        System.out.println("1) Buscando atendimentos na data: " + dataBusca);
+        java.time.format.DateTimeFormatter formato = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        java.time.LocalDate dataBusca = java.time.LocalDate.parse("01-01-2026", formato);
+
+        System.out.println("1) Buscando atendimentos na data: 01-01-2026");
         TypedQuery<Atendimento> q1 = manager.createQuery(
                 "SELECT a FROM Atendimento a WHERE a.data = :data", Atendimento.class);
-        q1.setParameter("data", dataBusca);
+
+        q1.setParameter("data", dataBusca); // Agora ele passa o objeto LocalDate corretamente
 
         for (Atendimento a : q1.getResultList()) {
             System.out.println(a);
