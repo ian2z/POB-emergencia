@@ -12,7 +12,7 @@ public class Upa {
     private int id;
     private String nome;
 
-    @OneToMany(mappedBy = "upa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "upa",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atendimento> atendimentos = new ArrayList<>();
 
     public Upa() {}

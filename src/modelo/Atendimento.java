@@ -13,12 +13,13 @@ public class Atendimento {
     private LocalDate data;
     private String triagem;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     //JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
-    @ManyToOne(optional = false)
-    //@JoinColumn(name = "upa_id", nullable = false)
+
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "upa_id", nullable = false)
     private Upa upa;
 
     public Atendimento() {}
