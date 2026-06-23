@@ -1,7 +1,5 @@
 package appconsole;
 
-import java.util.List;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 

@@ -29,6 +29,11 @@ public class Paciente {
         this.foto = foto;
     }
 
+    public Paciente(String cpf, String nome) {
+        this.cpf = cpf;
+        this.nome = nome;
+    }
+
     public byte[] getFoto() { return foto; }
     public void setFoto (byte[] foto) { this.foto = foto; };
     public String getCpf() { return cpf; }

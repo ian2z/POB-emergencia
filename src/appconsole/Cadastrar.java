@@ -49,6 +49,7 @@ public class Cadastrar {
             Paciente p4 = new Paciente("95675499830", "Omar Gomez");
             manager.persist(p4);
             Atendimento a4 = new Atendimento("06-04-2026", "Dores musculares", p4, bancarios);
+            manager.persist(a4);
 
             //exemplo Mário com mais de uma visita
             Paciente mario = new Paciente("22222222222", "Mario Castro");

@@ -23,6 +23,7 @@ public class Upa {
 
     public String getNome() { return nome; }
     public List<Atendimento> getAtendimentos() { return atendimentos; }
+    public int getId() { return id; }
 
     public void adicionar(Atendimento a) { this.atendimentos.add(a); }
     public void remover(Atendimento a) { this.atendimentos.remove(a); }

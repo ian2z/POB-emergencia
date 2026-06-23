@@ -24,8 +24,7 @@ public class FachadaPaciente {
                 throw new Exception("Paciente com CPF " + cpf + " já existe!");
             }
 
-            p = new Paciente(cpf, nome);
-            p.setFoto(foto);
+            p = new Paciente(cpf, nome, foto);
 
             repPaciente.criar(p);
             Repositorio.confirmarTransacao();
