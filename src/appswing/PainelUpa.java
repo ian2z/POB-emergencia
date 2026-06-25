@@ -1,6 +1,6 @@
 package appswing;
 
-import fachada.FachadaUpa;
+import requisito.FachadaUpa;
 import modelo.Upa;
 
 import javax.swing.*;

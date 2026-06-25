@@ -38,6 +38,7 @@ public class Paciente {
     public void setFoto (byte[] foto) { this.foto = foto; };
     public String getCpf() { return cpf; }
     public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
     public List<Atendimento> getAtendimentos() { return atendimentos; }
 
     public void adicionar(Atendimento a) { this.atendimentos.add(a); }

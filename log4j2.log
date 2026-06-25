@@ -649,3 +649,62 @@ java.lang.IllegalStateException: Cannot get a connection as the driver manager i
 2026-06-23 19:56:42.193 [AWT-EventQueue-0] WARN  org.hibernate.orm.jdbc.warn - HHH000247: ErrorCode: 0, SQLState: 00000
 2026-06-23 19:56:42.193 [AWT-EventQueue-0] WARN  org.hibernate.orm.jdbc.warn - restrição "ukr9ejf8cf9k70m88fes1ttlcwi" da relação "paciente_20242370040" não existe, ignorando
 2026-06-23 19:56:42.244 [AWT-EventQueue-0] INFO  util.Util - -------- conectou banco de dados
+2026-06-25 17:03:21.982 [AWT-EventQueue-0] INFO  util.Util - ----conectando postgresql
+2026-06-25 17:03:22.437 [AWT-EventQueue-0] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+2026-06-25 17:03:22.542 [AWT-EventQueue-0] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.3.2.Final
+2026-06-25 17:03:22.923 [AWT-EventQueue-0] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using built-in connection pool (not intended for production use)
+2026-06-25 17:03:23.154 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/pob]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.4
+	Default catalog/schema: pob/public
+	Autocommit mode: false
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: DriverManagerConnectionProvider
+	Minimum pool size: 1
+	Maximum pool size: 20
+2026-06-25 17:03:24.272 [AWT-EventQueue-0] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-25 17:03:24.411 [AWT-EventQueue-0] INFO  util.Util - -------- conectou banco de dados
+2026-06-25 17:27:45 [AWT-EventQueue-0] INFO  Util - ----conectar banco - lendo util.propriedades 
+2026-06-25 17:27:45 [AWT-EventQueue-0] INFO  Util - ----sgbd => postgresql, banco => pob, ip => localhost
+2026-06-25 17:27:46 [AWT-EventQueue-0] WARN  pooling - HHH10001002: Using built-in connection pool (not intended for production use)
+2026-06-25 17:27:48 [AWT-EventQueue-0] DEBUG SQL - 
+    select
+        p1_0.id,
+        p1_0.cpf,
+        p1_0.foto,
+        p1_0.nome 
+    from
+        paciente_20242370040 p1_0 
+    order by
+        p1_0.id
+2026-06-25 17:27:48 [AWT-EventQueue-0] INFO  Util - ----desconectar banco
+2026-06-25 17:27:48 [AWT-EventQueue-0] INFO  Util - ----conectar banco - lendo util.propriedades 
+2026-06-25 17:27:48 [AWT-EventQueue-0] INFO  Util - ----sgbd => postgresql, banco => pob, ip => localhost
+2026-06-25 17:27:48 [AWT-EventQueue-0] WARN  pooling - HHH10001002: Using built-in connection pool (not intended for production use)
+2026-06-25 17:27:48 [AWT-EventQueue-0] DEBUG SQL - 
+    select
+        u1_0.id,
+        u1_0.nome 
+    from
+        upa_20242370040 u1_0 
+    order by
+        u1_0.id
+2026-06-25 17:27:48 [AWT-EventQueue-0] INFO  Util - ----desconectar banco
+2026-06-25 17:27:48 [AWT-EventQueue-0] INFO  Util - ----conectar banco - lendo util.propriedades 
+2026-06-25 17:27:48 [AWT-EventQueue-0] INFO  Util - ----sgbd => postgresql, banco => pob, ip => localhost
+2026-06-25 17:27:48 [AWT-EventQueue-0] WARN  pooling - HHH10001002: Using built-in connection pool (not intended for production use)
+2026-06-25 17:27:48 [AWT-EventQueue-0] DEBUG SQL - 
+    select
+        a1_0.id,
+        a1_0.data,
+        a1_0.paciente_id,
+        a1_0.triagem,
+        a1_0.upa_id 
+    from
+        atendimento_20242370040 a1_0 
+    order by
+        a1_0.id
+2026-06-25 17:27:48 [AWT-EventQueue-0] INFO  Util - ----desconectar banco

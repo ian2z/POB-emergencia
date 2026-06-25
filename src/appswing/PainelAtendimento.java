@@ -1,6 +1,6 @@
 package appswing;
 
-import fachada.FachadaAtendimento;
+import requisito.FachadaAtendimento;
 import modelo.Atendimento;
 
 import javax.swing.*;
