@@ -41,7 +41,12 @@ public class FachadaAtendimento {
     public List<Atendimento> listarAtendimentos() {
         try {
             Repositorio.conectar();
-            return repAtendimento.listar();
+            List<Atendimento> lista = repAtendimento.listar();
+            for (Atendimento a : lista) {
+                a.getPaciente().getNome();
+                a.getUpa().getNome();
+            }
+            return lista;
         } finally {
             Repositorio.desconectar();
         }
@@ -74,7 +79,12 @@ public class FachadaAtendimento {
             Repositorio.conectar();
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             LocalDate data = LocalDate.parse(dataString, formato);
-            return repAtendimento.buscarPorData(data);
+            List<Atendimento> lista = repAtendimento.buscarPorData(data);
+            for (Atendimento a : lista) {
+                a.getPaciente().getNome();
+                a.getUpa().getNome();
+            }
+            return lista;
         } finally {
             Repositorio.desconectar();
         }
@@ -83,7 +93,12 @@ public class FachadaAtendimento {
     public List<Atendimento> consultarAtendimentosPorCpfPaciente(String cpf) {
         try {
             Repositorio.conectar();
-            return repAtendimento.buscarPorCpfPaciente(cpf);
+            List<Atendimento> lista = repAtendimento.buscarPorCpfPaciente(cpf);
+            for (Atendimento a : lista) {
+                a.getPaciente().getNome();
+                a.getUpa().getNome();
+            }
+            return lista;
         } finally {
             Repositorio.desconectar();
         }
@@ -92,7 +107,12 @@ public class FachadaAtendimento {
     public List<Atendimento> consultarAtendimentosPorTriagem(String palavraChave) {
         try {
             Repositorio.conectar();
-            return repAtendimento.buscarPorTriagemLike(palavraChave);
+            List<Atendimento> lista = repAtendimento.buscarPorTriagemLike(palavraChave);
+            for (Atendimento a : lista) {
+                a.getPaciente().getNome();
+                a.getUpa().getNome();
+            }
+            return lista;
         } finally {
             Repositorio.desconectar();
         }

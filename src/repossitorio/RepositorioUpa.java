@@ -35,4 +35,12 @@ public class RepositorioUpa extends Repositorio<Upa> {
                         "ORDER BY COUNT(a) DESC", Object[].class);
         return q.getResultList();
     }
+
+    // Consulta 7: Listagem das UPAs que o paciente X foi atendido
+    public List<Upa> consultarUpasPorCpfPaciente(String cpf) {
+        TypedQuery<Upa> q = Util.getManager().createQuery(
+                "SELECT DISTINCT u FROM Upa u JOIN u.atendimentos a WHERE a.paciente.cpf = :cpf ORDER BY u.nome", Upa.class);
+        q.setParameter("cpf", cpf);
+        return q.getResultList();
+    }
 }

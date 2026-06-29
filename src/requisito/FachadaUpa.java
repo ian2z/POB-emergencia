@@ -34,7 +34,11 @@ public class FachadaUpa {
     public List<Upa> listarUpas() {
         try {
             Repositorio.conectar();
-            return repUpa.listar();
+            List<Upa> lista = repUpa.listar();
+            for (Upa u : lista) {
+                u.getAtendimentos().size();
+            }
+            return lista;
         } finally {
             Repositorio.desconectar();
         }
@@ -44,6 +48,19 @@ public class FachadaUpa {
         try {
             Repositorio.conectar();
             return repUpa.obterRankingLotacao();
+        } finally {
+            Repositorio.desconectar();
+        }
+    }
+
+    public List<Upa> consultarUpasPorCpfPaciente(String cpf) {
+        try {
+            Repositorio.conectar();
+            List<Upa> lista = repUpa.consultarUpasPorCpfPaciente(cpf);
+            for (Upa u : lista) {
+                u.getAtendimentos().size();
+            }
+            return lista;
         } finally {
             Repositorio.desconectar();
         }

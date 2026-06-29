@@ -3,6 +3,7 @@ package appconsole;
 import java.util.List;
 import modelo.Atendimento;
 import modelo.Paciente;
+import modelo.Upa;
 import requisito.FachadaAtendimento;
 import requisito.FachadaPaciente;
 import requisito.FachadaUpa;
@@ -31,6 +32,15 @@ public class Consultar {
         List<Atendimento> atendimentosCpf = fachadaAtendimento.consultarAtendimentosPorCpfPaciente(cpfBusca);
         for (Atendimento a : atendimentosCpf) {
             System.out.println(a);
+        }
+
+        System.out.println("\n=======================================================");
+
+        // 2b) Buscando UPAs que o paciente com CPF X foi atendido
+        System.out.println("2b) Buscando UPAs que o paciente com CPF " + cpfBusca + " foi atendido");
+        List<Upa> upasPaciente = fachadaUpa.consultarUpasPorCpfPaciente(cpfBusca);
+        for (Upa u : upasPaciente) {
+            System.out.println(u);
         }
 
         System.out.println("\n=======================================================");

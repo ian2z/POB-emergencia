@@ -69,7 +69,11 @@ public class FachadaPaciente {
     public List<Paciente> listarPacientes() {
         try {
             Repositorio.conectar();
-            return repPaciente.listar();
+            List<Paciente> lista = repPaciente.listar();
+            for (Paciente p : lista) {
+                p.getAtendimentos().size();
+            }
+            return lista;
         } finally {
             Repositorio.desconectar();
         }
@@ -78,7 +82,11 @@ public class FachadaPaciente {
     public Paciente buscarPaciente(String cpf) {
         try {
             Repositorio.conectar();
-            return repPaciente.localizar(cpf);
+            Paciente p = repPaciente.localizar(cpf);
+            if (p != null) {
+                p.getAtendimentos().size();
+            }
+            return p;
         } finally {
             Repositorio.desconectar();
         }
@@ -104,7 +112,11 @@ public class FachadaPaciente {
     public List<Paciente> consultarPacientesComMaisAtendimentos(String nomeUpa, long limite) {
         try {
             Repositorio.conectar();
-            return repPaciente.consultarPacientesComMaisAtendimentos(nomeUpa, limite);
+            List<Paciente> lista = repPaciente.consultarPacientesComMaisAtendimentos(nomeUpa, limite);
+            for (Paciente p : lista) {
+                p.getAtendimentos().size();
+            }
+            return lista;
         } finally {
             Repositorio.desconectar();
         }
@@ -113,7 +125,11 @@ public class FachadaPaciente {
     public List<Paciente> consultarPacientesMultiplasUpas() {
         try {
             Repositorio.conectar();
-            return repPaciente.consultarPacientesMultiplasUpas();
+            List<Paciente> lista = repPaciente.consultarPacientesMultiplasUpas();
+            for (Paciente p : lista) {
+                p.getAtendimentos().size();
+            }
+            return lista;
         } finally {
             Repositorio.desconectar();
         }

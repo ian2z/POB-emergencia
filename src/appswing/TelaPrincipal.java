@@ -38,6 +38,21 @@ public class TelaPrincipal extends JFrame {
         sidebar.setPreferredSize(new Dimension(220, 0));
         sidebar.setBorder(new EmptyBorder(20, 10, 20, 10));
 
+        // Logo
+        try {
+            java.net.URL imgUrl = getClass().getResource("/imagens/logo.png");
+            if (imgUrl != null) {
+                ImageIcon logoIcon = new ImageIcon(imgUrl);
+                Image img = logoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                JLabel lblLogo = new JLabel(new ImageIcon(img));
+                lblLogo.setAlignmentX(Component.CENTER_ALIGNMENT);
+                sidebar.add(lblLogo);
+                sidebar.add(Box.createRigidArea(new Dimension(0, 15)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         JLabel lblTitle = new JLabel("EMERGÊNCIA");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
         lblTitle.setForeground(Theme.PRIMARY_COLOR);
@@ -55,12 +70,15 @@ public class TelaPrincipal extends JFrame {
         JButton btnPacientes = createMenuButton("Pacientes");
         JButton btnUpas = createMenuButton("UPAs");
         JButton btnAtendimentos = createMenuButton("Atendimentos");
+        JButton btnConsultas = createMenuButton("Consultas JPA");
 
         sidebar.add(btnPacientes);
         sidebar.add(Box.createRigidArea(new Dimension(0, 15)));
         sidebar.add(btnUpas);
         sidebar.add(Box.createRigidArea(new Dimension(0, 15)));
         sidebar.add(btnAtendimentos);
+        sidebar.add(Box.createRigidArea(new Dimension(0, 15)));
+        sidebar.add(btnConsultas);
 
         add(sidebar, BorderLayout.WEST);
 
@@ -72,6 +90,7 @@ public class TelaPrincipal extends JFrame {
         contentPanel.add(new PainelPaciente(), "Pacientes");
         contentPanel.add(new PainelUpa(), "UPAs");
         contentPanel.add(new PainelAtendimento(), "Atendimentos");
+        contentPanel.add(new PainelConsulta(), "Consultas");
 
         add(contentPanel, BorderLayout.CENTER);
 
@@ -79,6 +98,7 @@ public class TelaPrincipal extends JFrame {
         btnPacientes.addActionListener((ActionEvent e) -> cardLayout.show(contentPanel, "Pacientes"));
         btnUpas.addActionListener((ActionEvent e) -> cardLayout.show(contentPanel, "UPAs"));
         btnAtendimentos.addActionListener((ActionEvent e) -> cardLayout.show(contentPanel, "Atendimentos"));
+        btnConsultas.addActionListener((ActionEvent e) -> cardLayout.show(contentPanel, "Consultas"));
     }
 
     private JButton createMenuButton(String text) {
