@@ -84,7 +84,12 @@ public class FachadaPaciente {
             Repositorio.conectar();
             Paciente p = repPaciente.localizar(cpf);
             if (p != null) {
-                p.getAtendimentos().size();
+                for (modelo.Atendimento a : p.getAtendimentos()) {
+                    a.getUpa().getNome(); // Force load of Upa lazy proxy
+                }
+                if (p.getFoto() != null) {
+                    int loadFoto = p.getFoto().length; // Force load of lazy field
+                }
             }
             return p;
         } finally {
